@@ -118,6 +118,37 @@ $(function () {
     }
   });
 
+  const costSlider = new Swiper('.cost__swiper', {
+
+    // Количество слайдов для показа
+    slidesPerView: 1,
+
+    // Отключение функционала
+    // при изменении элементов слайдера
+    watchOverflow: true,
+
+    // Скорость
+    speed: 800,
+
+    // Обновить свайпер
+    // при изменении родительских
+    // элементов слайдера
+    observeParents: true,
+
+    // Обновить свайпер
+    // при изменении дочерних
+    // элементов слайда
+    observeSlideChildren: true,
+
+    grabCursor: true,
+    spaceBetween: 50,
+
+    pagination: {
+      el: '.cost__swiper-pagination',
+      type: 'bullets',
+    },
+  });
+
   const servicesCards = () => {
     const items = $('.services__card').click(function () {
       const index = items.index(this);
@@ -142,11 +173,54 @@ $(function () {
     firstSection.style.marginTop = headerHeight + 'px';
   }
 
+  const costSwiperMoveItems = () => {
+    if (window.innerWidth <= 830 && !document.querySelector('.cost__swiper-wrapper .swiper-slide')) {
+      const list = document.querySelector('.cost__list');
+      const items = list.querySelectorAll('.cost__item:not(.cost__item--translucent)')
+      const numberOfSlides = Math.ceil(items.length / 4)
+
+      for (let i = 0; i < numberOfSlides; i++) {
+        const slide = document.createElement('div')
+        slide.classList.add('swiper-slide', 'cost__swiper-slide')
+        const swiperWrapper = document.querySelector('.cost__swiper-wrapper');
+        const list = document.createElement('div')
+        list.classList.add('cost__list')
+        slide.appendChild(list)
+        swiperWrapper.appendChild(slide)
+      }
+
+      items.forEach((item, idx) => {
+        const indexOfSlide = Math.floor(idx / 4)
+        const slideList = document.querySelectorAll('.cost__swiper-slide')[indexOfSlide].querySelector('.cost__list');
+        slideList.appendChild(item)
+      })
+
+
+
+      // slide.appendChild(list)
+    }
+  }
+
+  const costBtnQuantitySwitching = () => {
+    const btns = document.querySelectorAll('.cost__btn-quantity');
+    btns.forEach(btn => {
+      btn.addEventListener('click', (i) => {
+        btns.forEach(item => {
+          item.classList.remove('cost__btn-quantity--active')
+        })
+        btn.classList.add('cost__btn-quantity--active')
+      })
+    })
+  }
+
   window.addEventListener('resize', () => {
     marginHeader()
+    costSwiperMoveItems()
   })
 
   marginHeader()
   openCloseHeaderBurger();
   servicesCards();
+  costSwiperMoveItems();
+  costBtnQuantitySwitching();
 })
