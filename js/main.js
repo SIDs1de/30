@@ -5,6 +5,14 @@ $(function () {
     autoclear: false
   })
 
+  $('.how__input--masked').mask('+7 (h99) 999-99-99', {
+    autoclear: false
+  })
+
+  $('.modal__input--masked').mask('+7 (h99) 999-99-99', {
+    autoclear: false
+  })
+
   const openCloseHeaderBurger = () => {
     const headerBurgerBtn = document.querySelector('.header__burger');
     const body = document.querySelector('body');
@@ -37,11 +45,6 @@ $(function () {
 
     allowTouchMove: false,
 
-    // effect: 'fade',
-    // fadeEffect: {
-    //   crossFade: true
-    // },
-
     breakpoints: {
       1080: {
         slidesPerView: 2,
@@ -61,12 +64,6 @@ $(function () {
         spaceBetween: 10,
 
         allowTouchMove: true,
-
-        // effect: 'slide',
-
-        // fadeEffect: {
-        //   crossFade: false
-        // },
       }
     }
   });
@@ -194,10 +191,6 @@ $(function () {
         const slideList = document.querySelectorAll('.cost__swiper-slide')[indexOfSlide].querySelector('.cost__list');
         slideList.appendChild(item)
       })
-
-
-
-      // slide.appendChild(list)
     }
   }
 
@@ -213,14 +206,108 @@ $(function () {
     })
   }
 
+  const completedBtnSwitching = () => {
+    const btns = document.querySelectorAll('.completed__list-item');
+    btns.forEach(btn => {
+      btn.addEventListener('click', (i) => {
+        btns.forEach(item => {
+          item.classList.remove('completed__list-item--active')
+        })
+        btn.classList.add('completed__list-item--active')
+      })
+    })
+  }
+
+  const selectEnabling = () => {
+    new NativejsSelect({
+      selector: '.calculation__group-select',
+    });
+  }
+
+  const calculateCalculation = () => {
+    const price = document.querySelector('.calculation__card-cost span');
+
+    const calculate = () => {
+      const values = document.querySelectorAll('.nativejs-select__placeholder-value');
+      const length = +values[0].innerHTML.trim().replace(/[^0-9,\s]/g, "")
+      const width = +values[1].innerHTML.trim().replace(/[^0-9,\s]/g, "")
+      const result = (length * 2 + width * 2) * 10000
+      price.innerHTML = result
+    }
+    const options = document.querySelectorAll('.nativejs-select__option');
+    options.forEach(option => {
+      option.addEventListener('click', () => {
+        calculate()
+      })
+    })
+    calculate()
+
+  }
+
+  const scrollToElements = () => {
+    const btns = document.querySelectorAll('a[href^="#"]');
+    const header = document.querySelector('.header');
+    const body = document.querySelector('body');
+    const html = document.querySelector('html');
+    btns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        body.classList.remove('_menu-open')
+        html.classList.remove('_menu-open')
+        const sectionName = e.target.getAttribute('href');
+        let section = null;
+        try {
+          section = document.querySelector(sectionName);
+        } catch {
+        }
+        if (section) {
+          const top = section.getBoundingClientRect()['y'];
+          window.scrollTo({
+            top: top + window.pageYOffset - header.clientHeight,
+            behavior: 'smooth'
+          })
+        }
+      })
+    })
+  }
+
+  const openModals = () => {
+    const btns = document.querySelectorAll('a[data-open-modal]');
+    const body = document.querySelector('body');
+    const html = document.querySelector('html');
+
+    btns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        html.classList.add('_modal-open')
+        body.classList.add('_modal-open')
+      })
+    })
+
+    const closeBtns = document.querySelectorAll('.modal__card-cross, .modal__content');
+    closeBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        if (e.target.classList[0] == 'modal__card-cross' || e.target.classList[0] == 'modal__content' || e.target.classList[0] == 'modal__card-cross-img') {
+          html.classList.remove('_modal-open')
+          body.classList.remove('_modal-open')
+        }
+      })
+    })
+
+  }
+
   window.addEventListener('resize', () => {
     marginHeader()
     costSwiperMoveItems()
   })
 
-  marginHeader()
+  marginHeader();
   openCloseHeaderBurger();
   servicesCards();
   costSwiperMoveItems();
   costBtnQuantitySwitching();
+  selectEnabling();
+  calculateCalculation();
+  completedBtnSwitching();
+  scrollToElements();
+  openModals();
 })
