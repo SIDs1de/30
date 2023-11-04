@@ -384,7 +384,7 @@ textarea {
   font-family: "CoFoSans";
   font-weight: 400;
   font-style: normal;
-  src: local("CoFoSans"), url("../fonts/CoFoSans-Regular.woff2") format("woff2"), url("../fonts/CoFoSans-Regular.ttf") format("truetype");
+  src: local("CoFoSans"), url("../fonts/COFOSANS-REGULAR.woff2") format("woff2"), url("../fonts/COFOSANS-REGULAR.TTF") format("truetype");
 }
 @font-face {
   font-family: "CoFoSans";
@@ -396,13 +396,13 @@ textarea {
   font-family: "CoFoSans";
   font-weight: 700;
   font-style: normal;
-  src: local("CoFoSans"), url("../fonts/CoFoSans-Bold.woff2") format("woff2"), url("../fonts/CoFoSans-Bold.ttf") format("truetype");
+  src: local("CoFoSans"), url("../fonts/COFOSANS-BOLD.WOFF2") format("woff2"), url("../fonts/COFOSANS-BOLD.TTF") format("truetype");
 }
 @font-face {
   font-family: "Formular";
   font-weight: 500;
   font-style: normal;
-  src: local("Formular"), url("../fonts/Formular-Medium.woff2") format("woff2"), url("../fonts/Formular-Medium.ttf") format("truetype");
+  src: local("Formular"), url("../fonts/FORMULAR-MEDIUM.woff2") format("woff2"), url("../fonts/FORMULAR-MEDIUM.TTF") format("truetype");
 }
 .section-title {
   font-family: "Formular";
